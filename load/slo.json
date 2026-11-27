@@ -1,7 +1,7 @@
 {
-  "_comment": "G2-Trackers SLOs. errorRate = SLO 1: Availability 99,5 % -> max. 0,5 % fehlerhafte Requests. tracking_list p95 = SLO 2, fuer Lab 4 Teil 4 verschaerft von 300 ms auf 10 ms (eigene Baseline: ohne Feature ca. 7 ms, mit FEATURE_ENTRY_DAY_TOTALS ca. 13,6 ms).",
+  "_comment": "G2-Trackers SLOs. errorRate = SLO 1: Availability 99,5 % -> max. 0,5 % fehlerhafte Requests. tracking_list p95 = SLO 2, fuer Lab 4 Teil 4 verschaerft von 300 ms auf 15 ms (Experiment mit 100 Eintraegen pro User: ohne Feature ca. 3-8 ms, mit FEATURE_ENTRY_DAY_TOTALS ca. 21 ms).",
   "errorRate": 0.005,
   "steps": {
-    "tracking_list": { "p95": 10 }
+    "tracking_list": { "p95": 15 }
   }
 }

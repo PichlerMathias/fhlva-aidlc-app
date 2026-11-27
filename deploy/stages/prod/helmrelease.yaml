@@ -44,6 +44,7 @@ spec:
       enabled: true
       env:
         SEED_ENTRIES: "100"
+        WARMUP_REQUESTS: "100"   # unmeasured warm-up of the entry list before the gate measures
     # --- Image tags: this is what a release changes ---
     auth-service:
       image:

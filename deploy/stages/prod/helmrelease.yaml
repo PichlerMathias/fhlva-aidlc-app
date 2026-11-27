@@ -51,13 +51,14 @@ spec:
         tag: latest
     beer-tracking-service:
       image:
-        tag: latest
+        tag: v4                # promote: everyone gets the v4 code
+      env:
+        FEATURE_ENTRY_DAY_TOTALS: "false"   # ship the code, not the feature (too slow, see Lab_4 part 4)
       canary:
-        enabled: true
+        enabled: false
         tag: v4
         replicas: 1
-        env:
-          FEATURE_ENTRY_DAY_TOTALS: "true"
+        env: {}
     health-notification-service:
       image:
         tag: latest

@@ -23,6 +23,8 @@ const WRITE_RATIO = Number(__ENV.WRITE_RATIO || 0.3);
 // Entries each user gets in setup (history before the measured load). 1 = just enough for warm
 // statistics. Real users have hundreds; raise it to see costs that grow with a user's data.
 const SEED_ENTRIES = Math.min(Math.max(Number(__ENV.SEED_ENTRIES || 1), 1), 200);
+// G2 Lab 4: unmeasured warm-up calls of the entry list in setup (0 = off, max 500).
+const WARMUP_REQUESTS = Math.min(Math.max(Number(__ENV.WARMUP_REQUESTS || 0), 0), 500);
 const PASSWORD = 'load-test-password';
 // A request slower than this counts as failed, so a hanging dependency shows up as an
 // error-rate violation instead of a stuck run.
@@ -129,6 +131,13 @@ export function setup() {
     for (let e = 0; e < SEED_ENTRIES; e++) createEntry(token, 'setup_create', setupTag);
     http.get(`${URLS.statistics}/statistics/me`, params('setup_statistics', token, setupTag));
     users.push({ email, token, exp: expiry(token) });
+  }
+  // G2 Lab 4: warm up the entry list before the measured load. A release restarts the pod,
+  // and the first requests to a fresh JVM are slow (cold start). These calls are named
+  // setup_warmup, so they do not count for the tracking_list thresholds.
+  for (let w = 0; w < WARMUP_REQUESTS; w++) {
+    const u = users[w % users.length];
+    http.get(`${URLS.tracking}/tracking/entries?page=0&size=20`, params('setup_warmup', u.token, setupTag));
   }
   return { runId, runName, users };
 }
